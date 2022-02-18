@@ -26,29 +26,37 @@ func _ready():
 
 func _physics_process(delta):
 	direction = Vector3()
+	#get input vector WASD
 	var input = Input.get_vector("left","right","down","up")
+	#use camera_h node basis to determine left/right direction
 	direction += input.x * camera_h.global_transform.basis.x
+	#use camera_h node basis to determine forward/backward direction
 	direction -= input.y * camera_h.global_transform.basis.z
+	
 	if Input.is_action_just_pressed("left_mouse"):
+		#get collider from raycast
 		var object = interact_ray.get_collider();
 		if object == null:
+			#return if null
 			return
+		#call activate_object if method exist on the object
 		if object.has_method("activate_object"):
 			object.activate_object()
 		else:
 			print("Object found but no interaction implemented")
 			
-		
+	#For Fun flash light
 	if Input.is_action_just_pressed("right_mouse"):
 		if flash_light.visible:
 			flash_light.visible = false
 		else: 
 			flash_light.visible = true
-	
+	#Gravity
 	if is_on_floor():
 		y_velocity.y = -0.01
 	else:
 		y_velocity.y += gravity * delta
+	#Jumping
 	if Input.is_action_just_pressed("jump"):
 		if is_on_floor():
 			y_velocity.y = jump_velocity
@@ -70,7 +78,8 @@ func _physics_process(delta):
 	if global_transform.origin.y < -100:
 		global_transform.origin = start_point
 		y_velocity.y = 0
-			
+
+#mouse input
 func _input(event):
 	if event is InputEventMouseMotion:
 		mouse_input = event.relative
