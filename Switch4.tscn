@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Area
+
+
+
+func activate_object():
+	Globals.open_door()
+"
+
+[sub_resource type="BoxShape" id=1]
+
+[node name="Switch4" type="Area"]
+transform = Transform( 0.105881, 0, 0, 0, 0.474013, 0, 0, 0, 0.519869, -32.8758, 3.43423, 0.831761 )
+script = SubResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="CollisionShape"]
+width = 1.97434
